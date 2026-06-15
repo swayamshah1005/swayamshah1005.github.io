@@ -1,0 +1,3 @@
+Optional: add your G-59 PDFs here with these exact names if you want the buttons to work:
+- g59-zeta-presentation.pdf
+- g59-zeta-report.pdf
