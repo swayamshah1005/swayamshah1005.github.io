@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swayam Shah — Mechanical Engineering</title>
+  <style>
+    /* ── tokens ────────────────────────────────────────── */
+    :root {
+      --bg:        #0e0e0f;
+      --surface:   #161618;
+      --border:    #232325;
+      --muted:     #3a3a3d;
+      --text:      #e8e8ea;
+      --sub:       #8a8a90;
+      --accent:    #c8a96e;   /* warm brass — engineering / machined metal */
+      --accent2:   #5b8fa8;   /* steel blue — secondary */
+      --tag-bg:    #1e1e20;
+      --radius:    6px;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    /* ── reset ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ── layout ────────────────────────────────────────── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── nav ───────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(14,14,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .inner {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+    }
+    .nav-name {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--sub); font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── hero ──────────────────────────────────────────── */
+    .hero {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      font-size: 16px; color: var(--sub); max-width: 520px;
+      margin-bottom: 32px; line-height: 1.7;
+    }
+    .hero-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: var(--radius);
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0e0e0f;
+    }
+    .btn-primary:hover { background: #d4b87a; text-decoration: none; }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--sub);
+      background: transparent;
+    }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--text); text-decoration: none; }
+
+    /* ── section labels ────────────────────────────────── */
+    .section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── entry card ────────────────────────────────────── */
+    .entry {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+      cursor: pointer;
+    }
+    .entry:hover { border-color: var(--muted); }
+
+    .entry-header {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      user-select: none;
+    }
+    .entry-header:hover .entry-title { color: var(--accent); }
+
+    .entry-org {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent2); font-weight: 600; margin-bottom: 3px;
+    }
+    .entry-title {
+      font-size: 17px; font-weight: 600; line-height: 1.3;
+      transition: color 0.15s;
+    }
+    .entry-role {
+      font-size: 13px; color: var(--sub); margin-top: 2px;
+    }
+    .entry-meta {
+      font-size: 11px; color: var(--sub);
+      text-align: right; white-space: nowrap;
+    }
+    .entry-meta .date { font-variant-numeric: tabular-nums; }
+    .entry-location { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .expand-icon {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.2s ease, color 0.15s;
+    }
+    .entry.open .expand-icon { transform: rotate(45deg); color: var(--accent); }
+
+    /* resume bullets always visible */
+    .entry-bullets {
+      padding: 0 24px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .entry-bullets ul {
+      list-style: none; padding: 0; margin: 12px 0 0;
+    }
+    .entry-bullets li {
+      font-size: 13px; color: var(--sub); line-height: 1.6;
+      padding-left: 16px; position: relative; margin-bottom: 5px;
+    }
+    .entry-bullets li::before {
+      content: '–'; position: absolute; left: 0; color: var(--muted);
+    }
+
+
+    /* skill tags */
+    .entry-skills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 0 24px 16px;
+    }
+    .tag {
+      background: var(--tag-bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 3px 9px;
+      font-size: 11px; color: var(--sub);
+      font-family: var(--font-mono);
+    }
+
+    /* ── expandable case study ─────────────────────────── */
+    .entry-expand {
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+    .entry.open .entry-expand { display: block; }
+
+    .case-study { padding: 24px; }
+    .cs-section { margin-bottom: 24px; }
+    .cs-section:last-child { margin-bottom: 0; }
+    .cs-label {
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 8px;
+    }
+    .cs-body {
+      font-size: 13px; color: var(--sub); line-height: 1.75;
+    }
+
+    /* image gallery */
+    .gallery {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .gallery.cols-1 { grid-template-columns: 1fr; }
+    .gallery.cols-2 { grid-template-columns: 1fr 1fr; }
+    .gallery.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: #0b0b0c;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: border-color 0.15s;
+    }
+    .gallery-item img { cursor: zoom-in; }
+    .gallery-item video { cursor: default; }
+    .gallery-item img:hover { border-color: var(--accent); }
+    .entry-expand { cursor: default; }
+    .gallery-caption {
+      font-size: 11px; color: var(--muted);
+      margin-top: 5px; text-align: center;
+    }
+
+    /* media links */
+    .media-links {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+    }
+    .media-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-size: 12px; color: var(--sub);
+      transition: all 0.15s;
+    }
+    .media-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .media-link svg { flex-shrink: 0; }
+
+    /* ── skills grid ───────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .skill-group-label {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent2); font-weight: 600; margin-bottom: 10px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag {
+      background: var(--tag-bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 4px 9px;
+      font-size: 12px; color: var(--sub);
+    }
+
+
+    /* keep collapsed project cards clean and uniform */
+    .entry { width: 100%; }
+    .entry:not(.open) .entry-bullets li:nth-child(n+5) { display: none; }
+    .entry:not(.open) .entry-expand { display: none !important; }
+    .entry.open .entry-expand { display: block !important; }
+    .entry-bullets, .entry-skills, .case-study { max-width: 100%; overflow: hidden; }
+    .entry-title, .entry-role, .entry-bullets li, .tag { overflow-wrap: anywhere; }
+    .gallery-item { min-width: 0; }
+    .media-gallery video { max-height: 420px; }
+
+
+
+    /* force every collapsed card to be identical width/height */
+    body { overflow-x: hidden; }
+    .container { width: min(900px, 100%); }
+    .section > .entry {
+      width: 100%;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .entry-header > div:first-child { min-width: 0; }
+    .entry-title, .entry-role, .entry-org, .entry-bullets li, .tag {
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+    .entry:not(.open) {
+      height: 312px;
+      display: flex;
+      flex-direction: column;
+    }
+    .entry:not(.open) .entry-header {
+      flex: 0 0 auto;
+    }
+    .entry:not(.open) .entry-bullets {
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+    .entry:not(.open) .entry-bullets li:nth-child(n+5) { display: none; }
+    .entry:not(.open) .entry-skills {
+      flex: 0 0 auto;
+      max-height: 54px;
+      overflow: hidden;
+      margin-top: auto;
+    }
+    .entry:not(.open) .entry-expand { display: none !important; }
+    .entry.open {
+      height: auto;
+      display: block;
+    }
+    .entry.open .entry-expand { display: block !important; }
+    @media (max-width: 600px) {
+      .entry:not(.open) { height: auto; min-height: 300px; }
+      .entry:not(.open) .entry-skills { max-height: none; }
+    }
+
+    /* ── lightbox ──────────────────────────────────────── */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #lightbox.active { display: flex; }
+    #lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      border-radius: var(--radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      pointer-events: none;
+    }
+    #lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      font-size: 28px; color: #fff; cursor: pointer;
+      line-height: 1; opacity: 0.7;
+    }
+    #lightbox-close:hover { opacity: 1; }
+
+    /* ── footer ────────────────────────────────────────── */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer p { font-size: 12px; color: var(--muted); }
+
+    /* ── responsive ────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .gallery.cols-2, .gallery.cols-3 { grid-template-columns: 1fr; }
+      .entry-header { grid-template-columns: 1fr; }
+      .entry-meta { text-align: left; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <span class="nav-name">Swayam Shah</span>
+    <div class="nav-links">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="files/resume.pdf" target="_blank">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="container">
+  <section class="hero">
+    <p class="hero-eyebrow">Mechanical Engineering · UCLA</p>
+    <h1>Swayam Shah</h1>
+    <p class="hero-sub">Mechanical Engineering student at UCLA focused on vehicle systems, testing, and product development. I enjoy turning engineering concepts into validated hardware through design, analysis, fabrication, and experimentation.</p>
+    <div class="hero-links">
+      <a href="mailto:swayamshah@ucla.edu" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        swayamshah@ucla.edu
+      </a>
+      <a href="files/resume.pdf" target="_blank" class="btn btn-ghost">
+        Resume (PDF)
+      </a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="section-label">Experience</div>
+
+    <!-- BAJA GEARBOX -->
+    <div class="entry" id="entry-baja-gearbox">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">Bruin Baja Racing — UCLA</div>
+          <div class="entry-title">Gearbox Fatigue Life Testing</div>
+          <div class="entry-role">Destructive Testing Engineer</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">Sep 2025 – Present</div>
+          <div class="entry-location">Los Angeles, CA</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Developed a gearbox fatigue test system to characterize drivetrain durability under race-representative loading and reduce uncertainty in fatigue-life predictions.</li>
+          <li>Designed, fabricated, and assembled a drivetrain test stand integrating engine, gearbox, and brake subsystems to reproduce cyclic loading and braking-induced torque transients.</li>
+          <li>Integrated Hall-effect and brake-line pressure instrumentation to track rotational speed, estimate applied torque, and enable reliable load monitoring over 100k+ cycles.</li>
+          <li>Correlated experimental results with FEA and Miner's Rule fatigue modeling to identify tooth root bending stress as the dominant fatigue failure and guide future gearbox durability and mass optimization decisions.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">SolidWorks</span><span class="tag">Fatigue Testing</span><span class="tag">Gear Design</span>
+        <span class="tag">Test Stand Design</span><span class="tag">Hall-Effect Sensors</span><span class="tag">Miner's Rule</span>
+        <span class="tag">Fabrication / Welding</span><span class="tag">FEA</span><span class="tag">Python</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+
+          <div class="cs-section">
+            <div class="cs-label">Situation</div>
+            <div class="cs-body">
+              <ul>
+                <li>Bruin Baja Racing lacked empirical fatigue-life data for the gearbox, creating uncertainty around drivetrain durability and potential weight optimization opportunities.</li>
+                <li>The objective was to develop a repeatable testing methodology capable of reproducing race-representative loading and generating real fatigue-life data.</li>
+                <li>The long-term goal was to correlate experimental results with analytical fatigue predictions to guide future gearbox design decisions.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Action</div>
+            <div class="cs-body">
+              <ul>
+                <li>Identified braking events, torque spikes, and obstacle-induced cyclic loading as the primary fatigue drivers acting on the gearbox during competition.</li>
+                <li>Designed a complete drivetrain fatigue test stand consisting of an engine, gearbox, custom shaft coupler, A36 steel frame, and hydraulic brake subsystem.</li>
+                <li>Modeled and fabricated the system in-house using SolidWorks, laser-cut steel plates, welded tubing, and custom-machined drivetrain components.</li>
+                <li>Integrated Hall-effect sensors, load measurement instrumentation, FEA, and Miner's Rule fatigue modeling to quantify loading conditions and predict gearbox life.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Test Stand Architecture</div>
+            <div class="gallery cols-1">
+              <div class="gallery-item">
+                <img src="images/gearbox-test-stand.png" alt="Gearbox test stand SolidWorks assembly" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">SolidWorks assembly — engine + gearbox + A36 frame + custom shaft coupler + brake subassembly</div>
+              </div>
+              <div class="gallery-item">
+                <video src="videos/baja-fabrication.mov" controls preload="metadata"></video>
+                <div class="gallery-caption">Fabricating drivetrain test stand components in UCLA's machine shop prior to assembly and instrumentation.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Gear Load Analysis</div>
+            <div class="gallery cols-2">
+              <div class="gallery-item">
+                <img src="images/gearbox-cad.png" alt="Gearbox CAD render" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Gearbox CAD — 48/18 × 48/18 = 7.1:1 overall ratio</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/gearbox-gear-loads.png" alt="Input gear load calculations" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Tooth-root bending stress derivation — Rp = 0.725 in., σ = 6Tl / (r_p · w · b²)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Brake System & Miner's Rule</div>
+            <div class="gallery cols-3">
+              <div class="gallery-item">
+                <img src="images/gearbox-brake-system.png" alt="Brake stand CAD" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Brake subassembly — master cylinder, load cell, hydraulic pancake jack</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/gearbox-brake-considerations.png" alt="Brake system calculations" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Brake calculations — pressure, caliper force, rotor friction force, and output torque sizing</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/gearbox-miners-rule.png" alt="Miner's Rule and AISI 4340 S-N curve" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Python Miner's Rule model using AISI 4340 S-N curve</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Result</div>
+            <div class="cs-body">
+              <ul>
+                <li>Developed a fully instrumented gearbox fatigue testing system capable of generating repeatable durability data under representative race conditions.</li>
+                <li>Established a framework for comparing cycles-to-failure against analytical fatigue predictions and identifying dominant failure mechanisms.</li>
+                <li>Designed, fabricated, and assembled major test stand subsystems including the frame, shaft coupler, brake loading system, and instrumentation package.</li>
+                <li>Created a platform that can be used to validate future gearbox designs, improve durability, and support drivetrain mass reduction efforts.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- CF A-ARMS -->
+    <div class="entry" id="entry-fsae-suspension">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">Bruin Formula Racing — UCLA</div>
+          <div class="entry-title">Carbon Fiber Front Suspension A-Arms</div>
+          <div class="entry-role">Suspension & Vehicle Dynamics Subteam Member</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">Sep 2025 – Present</div>
+          <div class="entry-location">Los Angeles, CA</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Redesigned front suspension A-arms by replacing 4130 steel members with a carbon-fiber composite, improving structural efficiency while achieving 20% mass reduction.</li>
+          <li>Performed structural analyses across braking and combined cornering load cases to evaluate stress distributions, buckling resistance, and design margins under competition loading.</li>
+          <li>Optimized composite tube geometries through OD/ID trade studies and material selection, choosing uni-rolled carbon fiber based on strength-to-weight and cost-performance considerations.</li>
+          <li>Designed 6061-T6 aluminum plugs and wafer interfaces in SolidWorks to transfer suspension loads into composite members while satisfying manufacturability and assembly requirements.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">SolidWorks</span><span class="tag">Composite Design</span><span class="tag">Buckling Analysis</span>
+        <span class="tag">ANSYS FEA</span><span class="tag">Excel Solver</span><span class="tag">Vehicle Dynamics</span><span class="tag">DFM</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+
+          <div class="cs-section">
+            <div class="cs-label">Situation</div>
+            <div class="cs-body">
+              <ul>
+                <li>The existing 4130 steel A-arms met performance requirements, but suspension mass directly impacts vehicle handling, acceleration, and overall performance.</li>
+                <li>The objective was to evaluate whether a carbon-fiber composite architecture could reduce weight while maintaining sufficient strength and stiffness under competition loading.</li>
+                <li>The project focused on developing a lightweight design that balanced structural performance, manufacturability, and cost.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Action</div>
+            <div class="cs-body">
+              <ul>
+                <li>Identified critical suspension load cases including braking, cornering, and combined braking-cornering conditions through free-body diagrams and suspension force analysis.</li>
+                <li>Developed CAD models of composite A-arm concepts and performed ANSYS simulations to evaluate stress distribution, deflection, safety margins, and buckling behavior.</li>
+                <li>Designed CNC-machined 6061-T6 aluminum plugs and interface components to transfer loads from suspension joints into the carbon-fiber tubes while minimizing local stress concentrations.</li>
+                <li>Performed trade studies on tube diameter and wall thickness to optimize stiffness-to-weight ratio while maintaining acceptable structural margins.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">SolidWorks Design</div>
+            <div class="gallery cols-2">
+              <div class="gallery-item">
+                <img src="images/cf-aarm-cad.png" alt="Carbon fiber A-arm SolidWorks render" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Rear upper CF A-arm assembly — uni-rolled CF tubes + 6061-T6 Al wafer + plugs + rod ends</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/cf-suspension-assembly.png" alt="4130 steel A-arm reference assembly" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Front suspension assembly — current steel geometry used as baseline for CF redesign</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">OD/ID Optimization</div>
+            <div class="gallery cols-1">
+              <div class="gallery-item">
+                <img src="images/cf-load-case.png" alt="OD/ID optimization table" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Load case setup — front upper aft/fore forces and fixed support used to evaluate member loading</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">FEA & Material Selection</div>
+            <div class="gallery cols-2">
+              <div class="gallery-item">
+                <img src="images/cf-wafer-fea-collage.png" alt="ANSYS FEA von Mises stress on front upper wafer" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Wafer FEA collage — von Mises stress views identifying critical geometry regions</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/cf-wafer-fea-detail.png" alt="Uni-rolled vs twill-rolled CF comparison" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Detailed wafer FEA — design margins across load cases for the front upper wafer</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Result</div>
+            <div class="cs-body">
+              <ul>
+                <li>Achieved approximately 20% mass reduction compared to the baseline steel design while maintaining required structural performance across analyzed load cases.</li>
+                <li>Demonstrated the feasibility of a carbon-fiber suspension architecture for reducing unsprung mass without compromising durability.</li>
+                <li>Developed a deeper understanding of composite load transfer, lightweight structural design, and the tradeoffs between weight, manufacturability, cost, and reliability.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- BIONICS LAB -->
+    <div class="entry" id="entry-bionics">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">UCLA Bionics Research Lab</div>
+          <div class="entry-title">Actuated Colonoscopy Snare Prototype</div>
+          <div class="entry-role">Undergraduate Research Intern</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">Sep 2025 – Present</div>
+          <div class="entry-location">Los Angeles, CA</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Designed and modeled an actuated colonoscopy snare in SolidWorks, developing and refining the mechanism through multiple design iterations.</li>
+          <li>Evaluated different materials to replicate the flexibility and mechanical behavior of a colonoscope, allowing realistic testing of the device.</li>
+          <li>Built and tested a large-scale prototype to verify functionality, identify design issues, and guide development of a micro-scale version for medical applications.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">SolidWorks</span><span class="tag">Medical Device Prototyping</span><span class="tag">Mechanism Design</span>
+        <span class="tag">Material Testing</span><span class="tag">Rapid Prototyping</span><span class="tag">Design Iteration</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+          <div class="cs-section">
+            <div class="cs-label">Situation</div>
+            <div class="cs-body">
+              <ul>
+                <li>The project focused on developing an actuated colonoscopy snare concept for a medical device application.</li>
+                <li>The main challenge was creating a mechanism that could eventually function at a small scale while still being testable during early prototyping.</li>
+                <li>The prototype also needed to approximate the flexibility and mechanical behavior of a colonoscope so testing would better reflect realistic use conditions.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Action</div>
+            <div class="cs-body">
+              <ul>
+                <li>Modeled the actuated snare mechanism in SolidWorks and refined the design through multiple CAD iterations.</li>
+                <li>Experimented with different materials to mimic the flexural rigidity and mechanical response of a colonoscope.</li>
+                <li>Built a large-scale prototype to troubleshoot functionality before translating the mechanism toward a more precise micro-scale version.</li>
+                <li>Tested prototype motion and used the results to identify design issues, improve actuation behavior, and guide future design changes.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Prototype Videos</div>
+            <div class="gallery cols-2 media-gallery">
+              <div class="gallery-item">
+                <video src="videos/bionics-snare-prototype-1.mov" controls preload="metadata"></video>
+                <div class="gallery-caption">Large-scale prototype test used to evaluate actuation and mechanism behavior.</div>
+              </div>
+              <div class="gallery-item">
+                <video src="videos/bionics-snare-prototype-2.mov" controls preload="metadata"></video>
+                <div class="gallery-caption">Material and motion testing to approximate colonoscope flexibility during prototyping.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Result</div>
+            <div class="cs-body">
+              <ul>
+                <li>Created a functional large-scale prototype that helped validate the core actuation concept and reveal design issues early.</li>
+                <li>Developed a clearer path for translating the mechanism into a more compact, micro-scale medical device prototype.</li>
+                <li>Gained experience connecting CAD design, material selection, physical prototyping, and functional testing in a medical robotics context.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="section-label">Projects</div>
+
+    <!-- INFERNO DRONE -->
+    <div class="entry" id="entry-drone">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">UCLA MAE Design Course</div>
+          <div class="entry-title">Inferno Drone — Quadcopter with Servo-Actuated Flamethrower</div>
+          <div class="entry-role">Mechanical Design</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">2025</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Designed and modeled a quadcopter frame in SolidWorks with cylindrical arms, acrylic plates, and 3D-printed PLA motor mounts.</li>
+          <li>Routed all wiring internally through the cylindrical arm structure for cleaner packaging and reduced drag.</li>
+          <li>Integrated a servo-actuated flamethrower mount on the front arm for controlled ignition actuation.</li>
+          <li>Specified TPA material for landing legs for flexible, impact-resistant touchdown behavior.</li>
+          <li>Fabricated and assembled the physical frame; achieved controlled flight and marshmallow-toasting flamethrower actuation.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">SolidWorks</span><span class="tag">Quadcopter Design</span><span class="tag">3D Printing</span>
+        <span class="tag">Servo Actuation</span><span class="tag">System Integration</span><span class="tag">Avionics Packaging</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+
+          <div class="cs-section">
+            <div class="cs-label">Situation</div>
+            <div class="cs-body">
+              <ul>
+                <li>The objective was to design and build a functional quadcopter capable of carrying and actuating a front-mounted flamethrower system while maintaining stable flight characteristics.</li>
+                <li>The design required balancing structural rigidity, weight, packaging constraints, and manufacturability within a student project timeline.</li>
+                <li>A key challenge was integrating the flamethrower mechanism without interfering with the drone's stability, wiring, or overall performance.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Action</div>
+            <div class="cs-body">
+              <ul>
+                <li>Designed the complete quadcopter frame in SolidWorks using cylindrical arms, acrylic plates, and 3D-printed motor mounts.</li>
+                <li>Routed all electrical wiring internally through the arm structure to improve packaging, reduce drag, and eliminate exposed wiring.</li>
+                <li>Developed a servo-actuated mounting system to remotely actuate the flamethrower trigger while maintaining secure integration with the airframe.</li>
+                <li>Selected materials and component geometries based on strength, weight, and manufacturability considerations, including flexible TPA landing legs for improved impact resistance.</li>
+                <li>Fabricated, assembled, and integrated the complete mechanical system prior to flight testing.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">CAD Design</div>
+            <div class="gallery cols-1">
+              <div class="gallery-item">
+                <img src="images/drone-cad.png" alt="Drone SolidWorks CAD" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">SolidWorks assembly — cylindrical arms, acrylic plates, 3D-printed motor mounts, and servo flamethrower bracket</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Physical Build</div>
+            <div class="gallery cols-2">
+              <div class="gallery-item">
+                <img src="images/drone-build-close.png" alt="Drone assembled frame" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Assembled frame — cylindrical PLA arms, acrylic top plate, TPA landing legs</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/drone-build-floor.png" alt="Servo flamethrower mount detail" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">Servo mount detail — copper bracket actuates flamethrower trigger on front arm</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Build Video</div>
+            <div class="gallery cols-1 media-gallery">
+              <div class="gallery-item">
+                <video src="videos/drone-demo.mp4" controls preload="metadata"></video>
+                <div class="gallery-caption">Prototype demonstration video</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Result</div>
+            <div class="cs-body">
+              <ul>
+                <li>Successfully built and tested a fully functional quadcopter capable of stable flight and controlled flamethrower actuation.</li>
+                <li>Demonstrated the ability to integrate mechanical, electrical, and actuation subsystems into a single working platform.</li>
+                <li>Gained hands-on experience with CAD, fabrication, system integration, and iterative design under real-world constraints.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SPIROGRAPH -->
+    <div class="entry" id="entry-spirograph">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">UCLA MAE 162A — Mechanism Design Course</div>
+          <div class="entry-title">Spirograph Drawing Mechanism</div>
+          <div class="entry-role">Mechanism Design</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">2025</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Designed a gear-and-linkage drawing mechanism that converts single rotational input into complex geometric patterns (circles, ellipses, Lissajous-style curves).</li>
+          <li>Applied Kutzbach mobility criterion and vector loop analysis to verify 1-DOF mobility and characterize position/velocity behavior.</li>
+          <li>Modeled ring gear (95T, 190mm PD) and driving gear (30T, 60mm PD) in SolidWorks with adjustable pen arm.</li>
+          <li>Performed MATLAB force analysis to size motor torque requirements: 0.003147 N·m at 3.167:1 speed ratio.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">SolidWorks</span><span class="tag">Kinematics</span><span class="tag">Kutzbach Criterion</span>
+        <span class="tag">Vector Loop Analysis</span><span class="tag">MATLAB</span><span class="tag">Gear Design</span><span class="tag">3D Printing</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+
+          <div class="cs-section">
+            <div class="cs-label">Mechanism Analysis</div>
+            <div class="cs-body">
+              Verified 1-DOF mobility using the Kutzbach criterion: m = 3(n−1) − 2j₁ − j₂. With n=5 links and j₁=6 full joints, the raw result is m=0 — but meshing gears are an exception that subtract one additional DOF, giving actual mobility m=1. Position and velocity analysis used MATLAB vector loop equations solved via fsolve; acceleration analysis derived kinematic coefficients from the Jacobian.
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">CAD & Physical Build</div>
+            <div class="gallery cols-2">
+              <div class="gallery-item">
+                <img src="images/spirograph-cad.png" alt="Spirograph SolidWorks CAD" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">SolidWorks assembly — 95T ring gear (190mm PD), 30T driving gear (60mm PD), adjustable pen arm (150mm)</div>
+              </div>
+              <div class="gallery-item">
+                <img src="images/spirograph-build.png" alt="3D printed spirograph" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">3D printed PLA build — all components printed in-house; adjustable pivot point changes output curve geometry</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Prototype Video</div>
+            <div class="gallery cols-1 media-gallery">
+              <div class="gallery-item">
+                <video src="videos/spirograph-demo.mp4" controls preload="metadata"></video>
+                <div class="gallery-caption">Physical prototype motion test</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">MATLAB Force Analysis</div>
+            <div class="gallery cols-1">
+              <div class="gallery-item">
+                <img src="images/spirograph-analysis.png" alt="MATLAB kinematics analysis" onclick="openLightbox(this.src)" loading="lazy" />
+                <div class="gallery-caption">MATLAB kinematic analysis — position/velocity via vector loop, force analysis yielding T_motor = 0.003147 N·m</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-section">
+            <div class="cs-label">Design Challenge</div>
+            <div class="cs-body">Gear mate constraints in SolidWorks required careful attention to pitch circle tangency — misalignment caused significant assembly failures and needed iterative axis repositioning. In physical testing, the pen arm tended to push paper off the tray, pointing to a need for a paper-retention feature and larger pen slot clearance in the next iteration.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RWDC -->
+    <div class="entry" id="entry-rwdc">
+      <div class="entry-header">
+        <div>
+          <div class="entry-org">FAA Real World Design Challenge · Team CALtronics</div>
+          <div class="entry-title">G-59 Zeta — Unmanned Cargo Aircraft</div>
+          <div class="entry-role">Systems & Structural Design</div>
+        </div>
+        <div class="entry-meta">
+          <div class="date">2023</div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+
+      <div class="entry-bullets">
+        <ul>
+          <li>Designed and modeled wings, fuselage, and landing gear for a 4,000 lb unmanned cargo aircraft, performing structural analyses and system-level trade studies to support a 355-mile rural cargo mission.</li>
+          <li>Evaluated aircraft stability, weight distribution, and structural loading while balancing performance, manufacturability, and mission requirements throughout the design process.</li>
+          <li>Collaborated with FAA engineers during technical design reviews, refining the aircraft configuration and contributing to a 1st-place finish in California and 3rd place out of 455 teams nationally.</li>
+        </ul>
+      </div>
+
+      <div class="entry-skills">
+        <span class="tag">Aerospace Design</span><span class="tag">Structural Analysis</span><span class="tag">Systems Engineering</span>
+        <span class="tag">Trade Studies</span><span class="tag">FAA Compliance</span><span class="tag">Weight & Balance</span>
+      </div>
+
+      <div class="entry-expand">
+        <div class="case-study">
+          <div class="cs-section">
+            <div class="cs-label">Context</div>
+            <div class="cs-body">The FAA Real World Design Challenge tasks student teams with designing an unmanned cargo aircraft for a specified mission. Our mission: deliver cargo across a 355-mile rural route in a 4,000 lb class UAS. I contributed to wing geometry, fuselage structural layout, landing gear design, and system-level trade studies for weight, stability, and mission performance. Received direct technical feedback from FAA engineers during design review.</div>
+          </div>
+          <div class="media-links">
+            <a href="pdfs/g59-zeta-presentation.pdf" target="_blank" class="media-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              G-59 Presentation (PDF)
+            </a>
+            <a href="pdfs/g59-zeta-report.pdf" target="_blank" class="media-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              G-59 Report (PDF)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+
+      <div>
+        <div class="skill-group-label">CAD & Design</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SolidWorks</span>
+          <span class="skill-tag">Fusion 360</span>
+          <span class="skill-tag">Onshape</span>
+          <span class="skill-tag">GD&T</span>
+          <span class="skill-tag">DFM / DFA</span>
+          <span class="skill-tag">Tolerance Analysis</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="skill-group-label">Analysis</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Statics</span>
+          <span class="skill-tag">Dynamics</span>
+          <span class="skill-tag">Fatigue / Miner's Rule</span>
+          <span class="skill-tag">FEA (ANSYS)</span>
+          <span class="skill-tag">Gear Loading</span>
+          <span class="skill-tag">Kinematics</span>
+          <span class="skill-tag">Buckling</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="skill-group-label">Testing & Fabrication</div>
+        <div class="skill-tags">
+          <span class="skill-tag">CNC Machining</span>
+          <span class="skill-tag">Welding</span>
+          <span class="skill-tag">3D Printing</span>
+          <span class="skill-tag">Sensor Calibration</span>
+          <span class="skill-tag">Test Stand Design</span>
+          <span class="skill-tag">Plasma / Laser Cutting</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="skill-group-label">Programming & Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">Data Analysis</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>Swayam Shah · UCLA Mechanical Engineering · <a href="mailto:swayamshah@ucla.edu">swayamshah@ucla.edu</a></p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="lightbox-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+  // ── entry toggle ─────────────────────────────────────
+  function toggleEntry(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('open');
+  }
+
+  document.querySelectorAll('.entry').forEach(entry => {
+    entry.addEventListener('click', (e) => {
+      // Images, videos, and links should still open normally without collapsing the card.
+      if (e.target.closest('a, img, video, button')) return;
+      entry.classList.toggle('open');
+    });
+  });
+
+  // ── lightbox ─────────────────────────────────────────
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
